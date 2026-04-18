@@ -5,7 +5,6 @@ use indexmap::IndexMap;
 use reqwest::blocking::Client;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use serde::Deserialize;
-use serde_json::Value;
 use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
