@@ -5,6 +5,9 @@ in its infancy, but the goal is to be simple, useful, and have sane default beha
 to the frustations I experienced with Postman and Jetclient. As I was thinking about alternatives I asked myself,
 "Why can't this just be a CLI?" and then presto there was resto. 
 
+## Installation
+No packages are available yet so you'll need to install it manually. Clone the repo, then run `cargo install --path .`
+
 ## Usage
 
 It's pretty simple, you create a toml file that defines your operations and then you give the file to resto.
@@ -55,3 +58,14 @@ expect_status = [404]
 
 - Finally, you can tell resto to shout it's output: `resto test.toml -v`. Resto will show you the resolved URL, body, and response. 
 
+### Example Output
+
+#### Normal Output
+![Normal Output](doc/normal.png)
+
+#### Quiet Output
+![Quiet Output](doc/quiet.png)
+
+
+#### Verbose Output
+![Verbose Output](doc/verbose.png)
