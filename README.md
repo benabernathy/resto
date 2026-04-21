@@ -6,7 +6,7 @@ to the frustations I experienced with Postman and Jetclient. As I was thinking a
 "Why can't this just be a CLI?" and then presto there was resto. 
 
 ## Installation
-- Mac OS (Homebrew) `brew tap benabernathy/resto &^ brew install resto`
+- Mac OS (Homebrew) `brew tap benabernathy/resto && brew install resto`
 - Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/resto/releases) page.
 - You may install it using cargo after cloning this repo, run `cargo install --path .` 
 
