@@ -124,7 +124,7 @@ pub fn execute_request(
         // no output at all
     } else if quiet {
         println!(
-            "[{}] {} ({:.0?}) {:.0?}",
+            "[{}] {} ({:.0?}) {}",
             name, status_colored, elapsed, response_body_length
         );
     } else {
