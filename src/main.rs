@@ -22,6 +22,10 @@ fn main() -> Result<()> {
     let rf: RequestFile = toml::from_str(&content)
         .with_context(|| format!("could not parse {}", cli.file.display()))?;
 
+    for name in rf.requests.keys() {
+        println!("{}", name);
+    }
+
     let requests = load_requests(&rf, cli.requests.as_deref())?;
 
     for (name, req) in &requests {

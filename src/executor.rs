@@ -106,6 +106,7 @@ pub fn execute_request(
 
     let status = response.status();
     let body_text = response.text().unwrap_or_default();
+    let response_body_length = format!("{}B", body_text.len());
 
     // print result
     let code = status.as_u16();
@@ -122,7 +123,10 @@ pub fn execute_request(
     if silent {
         // no output at all
     } else if quiet {
-        println!("[{}] {} ({:.0?})", name, status_colored, elapsed);
+        println!(
+            "[{}] {} ({:.0?}) {:.0?}",
+            name, status_colored, elapsed, response_body_length
+        );
     } else {
         println!("[{}] {} ({:.0?})", name, status_colored, elapsed);
         if verbose {

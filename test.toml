@@ -17,6 +17,12 @@ method = "GET"
 url = "{{base_url}}/users/1"
 expect_status = [200]
 
+[not-found]
+description = "Born to fail"
+method = "GET"
+url = "{{base_url}}/users/999999"
+expect_status = [404]
+
 [get-posts]
 method = "GET"
 url = "{{base_url}}/posts"
@@ -24,9 +30,3 @@ url = "{{base_url}}/posts"
 [get-posts.query]
 userId = "1"
 _limit = "3"
-
-[not-found]
-description = "Born to fail"
-method = "GET"
-url = "{{base_url}}/users/999999"
-expect_status = [404]
