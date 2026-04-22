@@ -6,10 +6,19 @@ use std::collections::HashMap;
 #[derive(Debug, Deserialize)]
 pub struct RequestFile {
     #[serde(default)]
+    pub config: Config,
+
+    #[serde(default)]
     pub vars: HashMap<String, String>,
 
     #[serde(flatten)]
     pub requests: IndexMap<String, RequestDef>,
+}
+
+#[derive(Debug, Deserialize, Default, Clone, Copy)]
+pub struct Config {
+    #[serde(default)]
+    pub ignore_ssl: bool,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -26,8 +35,6 @@ pub struct RequestDef {
     pub query: HashMap<String, String>,
 
     pub body: Option<String>,
-
-    pub content_type: Option<String>,
 
     pub expect_status: Option<Vec<u16>>,
 

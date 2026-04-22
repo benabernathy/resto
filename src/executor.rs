@@ -7,7 +7,7 @@ use colored::Colorize;
 use reqwest::blocking::Client;
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 
-use crate::collection::RequestDef;
+use crate::collection::{Config, RequestDef};
 use crate::interpolate::interpolate;
 
 pub fn execute_request(
@@ -17,6 +17,7 @@ pub fn execute_request(
     quiet: bool,
     silent: bool,
     verbose: bool,
+    config: Config,
 ) -> Result<()> {
     let url = interpolate(&req.url, vars);
     let method = req.method.to_uppercase();
@@ -46,6 +47,7 @@ pub fn execute_request(
 
     let client = Client::builder()
         .timeout(std::time::Duration::from_secs(req.timeout_secs))
+        .danger_accept_invalid_certs(config.ignore_ssl)
         .build()?;
 
     let mut builder = client

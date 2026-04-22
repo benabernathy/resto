@@ -25,7 +25,15 @@ fn main() -> Result<()> {
     let requests = load_requests(&rf, cli.requests.as_deref())?;
 
     for (name, req) in &requests {
-        let result = execute_request(name, req, &rf.vars, cli.quiet, cli.silent, cli.verbose);
+        let result = execute_request(
+            name,
+            req,
+            &rf.vars,
+            cli.quiet,
+            cli.silent,
+            cli.verbose,
+            rf.config,
+        );
         if let Err(e) = result {
             if !cli.silent {
                 eprintln!("Error: {}", e);
