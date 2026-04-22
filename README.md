@@ -5,6 +5,9 @@ in its infancy, but the goal is to be simple, useful, and have sane default beha
 to the frustations I experienced with Postman and Jetclient. As I was thinking about alternatives I asked myself,
 "Why can't this just be a CLI?" and then presto there was resto. 
 
+![resto output](doc/video.gif)
+
+
 ## Installation
 - Mac OS (Homebrew) `brew tap benabernathy/resto && brew install resto`
 - Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/resto/releases) page.
@@ -59,15 +62,3 @@ expect_status = [404]
 - You can also tell resto to be really quiet (aka silent): `resto test.toml -Q`. Resto will only use the return code and produce no stdout. Just a 0 if all's swell or 1 otherwise.
 
 - Finally, you can tell resto to shout it's output: `resto test.toml -v`. Resto will show you the resolved URL, body, and response. 
-
-### Example Output
-
-#### Normal Output
-![Normal Output](doc/normal.png)
-
-#### Quiet Output
-![Quiet Output](doc/quiet.png)
-
-
-#### Verbose Output
-![Verbose Output](doc/verbose.png)
