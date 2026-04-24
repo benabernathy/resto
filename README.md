@@ -13,7 +13,7 @@ to the frustations I experienced with Postman and Jetclient. As I was thinking a
 - Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/resto/releases) page.
 - You may install it using cargo after cloning this repo, run `cargo install --path .` 
 
-## Usage
+## Quick Start
 
 It's pretty simple, you create a toml file that defines your operations and then you give the file to resto.
 
@@ -62,3 +62,17 @@ expect_status = [404]
 - You can also tell resto to be really quiet (aka silent): `resto test.toml -Q`. Resto will only use the return code and produce no stdout. Just a 0 if all's swell or 1 otherwise.
 
 - Finally, you can tell resto to shout it's output: `resto test.toml -v`. Resto will show you the resolved URL, body, and response. 
+
+### Usage 
+
+### Run A Single Operation and Save Output Only
+
+1. Add the operation to the TOML file, if you haven't done so already. 
+
+```toml
+[get-posts]
+method = "GET"
+url = "{{base_url}}/posts"
+```
+
+2. Run resto with the -o for "output only" and redirect the output to a file: `resto test.toml get-posts -o > get-posts.json`

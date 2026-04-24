@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -10,14 +10,17 @@ pub struct Cli {
     /// Name of the request to run (omits runs all)
     pub requests: Option<String>,
 
-    // Only print the request name and the HTTP status code
-    #[arg(short, long)]
-    pub quiet: bool,
+    #[arg(short, long, value_enum, default_value_t = OutputFormat::Normal)]
+    pub output: OutputFormat,
+}
 
-    // Exit 0 on success, 1 on failure - no output
-    #[arg(short = 'Q', long)]
-    pub silent: bool,
-
-    #[arg(short, long)]
-    pub verbose: bool,
+#[derive(ValueEnum, Clone, Default)]
+pub enum OutputFormat {
+    #[default]
+    Normal,
+    Quiet,
+    Silent,
+    Verbose,
+    ResponseOnly,
+    RequestOnly,
 }

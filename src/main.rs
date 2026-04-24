@@ -3,7 +3,7 @@ use clap::Parser;
 use std::fs;
 
 mod cli;
-use cli::Cli;
+use cli::{Cli, OutputFormat};
 
 mod interpolate;
 
@@ -12,6 +12,12 @@ use collection::{RequestFile, load_requests};
 
 mod executor;
 use executor::execute_request;
+
+mod output;
+use crate::output::{
+    NormalOutput, OutputMode, QuietOutput, RequestOnlyOutput, ResponseOnlyOutput, SilentOutput,
+    VerboseOutput,
+};
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -24,20 +30,19 @@ fn main() -> Result<()> {
 
     let requests = load_requests(&rf, cli.requests.as_deref())?;
 
+    let output: Box<dyn OutputMode> = match cli.output {
+        OutputFormat::Silent => Box::new(SilentOutput {}),
+        OutputFormat::Quiet => Box::new(QuietOutput {}),
+        OutputFormat::Verbose => Box::new(VerboseOutput {}),
+        OutputFormat::ResponseOnly => Box::new(ResponseOnlyOutput {}),
+        OutputFormat::Normal => Box::new(NormalOutput {}),
+        OutputFormat::RequestOnly => Box::new(RequestOnlyOutput {}),
+    };
+
     for (name, req) in &requests {
-        let result = execute_request(
-            name,
-            req,
-            &rf.vars,
-            cli.quiet,
-            cli.silent,
-            cli.verbose,
-            rf.config,
-        );
+        let result = execute_request(name, req, &rf.vars, rf.config, output.as_ref());
         if let Err(e) = result {
-            if !cli.silent {
-                eprintln!("Error: {}", e);
-            }
+            output.request_error(name, format!("{}", e).as_str());
             std::process::exit(1);
         }
     }
