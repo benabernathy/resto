@@ -17,6 +17,10 @@ pub struct Cli {
     // Only list requests in file
     #[arg(short, long)]
     pub list_requests: bool,
+
+    // Optional profile name to use for vars
+    #[arg(short, long)]
+    pub profile: Option<String>,
 }
 
 #[derive(ValueEnum, Clone, Default)]

@@ -11,6 +11,9 @@ pub struct RequestFile {
     #[serde(default)]
     pub vars: HashMap<String, String>,
 
+    #[serde(default)]
+    pub profiles: HashMap<String, HashMap<String, String>>,
+
     #[serde(flatten)]
     pub requests: IndexMap<String, RequestDef>,
 }

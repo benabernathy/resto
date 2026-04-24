@@ -25,7 +25,7 @@ fn main() -> Result<()> {
     let content = fs::read_to_string(&cli.file)
         .with_context(|| format!("could not read {}", cli.file.display()))?;
 
-    let rf: RequestFile = toml::from_str(&content)
+    let mut rf: RequestFile = toml::from_str(&content)
         .with_context(|| format!("could not parse {}", cli.file.display()))?;
 
     let requests = load_requests(&rf, cli.requests.as_deref())?;
@@ -35,6 +35,16 @@ fn main() -> Result<()> {
             println!("\t{}", name);
         }
         return Ok(());
+    }
+
+    // Maybe merge vars from a profile
+    if let Some(profile_name) = &cli.profile {
+        if let Some(profile_vars) = rf.profiles.get(profile_name) {
+            rf.vars.extend(profile_vars.clone());
+        } else {
+            eprintln!("unknown profile '{}'", profile_name);
+            std::process::exit(1);
+        }
     }
 
     let output: Box<dyn OutputMode> = match cli.output {

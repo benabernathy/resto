@@ -4,6 +4,9 @@ ignore_ssl = false # Defaults to false
 [vars]
 base_url = "https://jsonplaceholder.typicode.com"
 
+[profiles.local]
+base_url = "https://localhost:8080"
+
 [create-post]
 method = "POST"
 url = "{{base_url}}/posts"
