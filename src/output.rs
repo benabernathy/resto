@@ -1,5 +1,5 @@
 use colored::{ColoredString, Colorize};
-use reqwest::{Request, StatusCode, header::HeaderMap};
+use reqwest::{StatusCode, header::HeaderMap};
 use std::{collections::HashMap, time::Duration};
 
 use crate::{collection::RequestDef, interpolate::interpolate};
@@ -178,7 +178,7 @@ impl OutputMode for RequestOnlyOutput {
 
 fn colorize_response_code(status: StatusCode) -> ColoredString {
     let code = status.as_u16();
-    let status_colored = if status.is_success() {
+    if status.is_success() {
         code.to_string().green()
     } else if status.is_client_error() {
         code.to_string().yellow()
@@ -186,9 +186,7 @@ fn colorize_response_code(status: StatusCode) -> ColoredString {
         code.to_string().red()
     } else {
         code.to_string().white()
-    };
-
-    status_colored
+    }
 }
 
 fn try_pretty_json(s: &str) -> String {

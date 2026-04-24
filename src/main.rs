@@ -30,6 +30,13 @@ fn main() -> Result<()> {
 
     let requests = load_requests(&rf, cli.requests.as_deref())?;
 
+    if cli.list_requests {
+        for (name, _) in &requests {
+            println!("\t{}", name);
+        }
+        return Ok(());
+    }
+
     let output: Box<dyn OutputMode> = match cli.output {
         OutputFormat::Silent => Box::new(SilentOutput {}),
         OutputFormat::Quiet => Box::new(QuietOutput {}),

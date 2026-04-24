@@ -10,8 +10,13 @@ pub struct Cli {
     /// Name of the request to run (omits runs all)
     pub requests: Option<String>,
 
+    // Optional output format/verbosity
     #[arg(short, long, value_enum, default_value_t = OutputFormat::Normal)]
     pub output: OutputFormat,
+
+    // Only list requests in file
+    #[arg(short, long)]
+    pub list_requests: bool,
 }
 
 #[derive(ValueEnum, Clone, Default)]
