@@ -10,6 +10,7 @@ to the frustations I experienced with Postman and Jetclient. As I was thinking a
 
 ## Installation
 - Mac OS (Homebrew) `brew tap benabernathy/toad && brew install toad`
+- Using cargo `cargo install toad-cli` 
 - Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/toad/releases) page.
 - You may install it using cargo after cloning this repo, run `cargo install --path .` 
 
