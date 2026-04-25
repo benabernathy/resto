@@ -82,7 +82,7 @@ pub fn execute_request(
 
     let status = response.status();
     let body_text = response.text().unwrap_or_default();
-    let response_body_length = format!("{}B", body_text.len());
+    let _response_body_length = format!("{}B", body_text.len());
 
     output.request_complete(name, status, elapsed, &body_text);
 
