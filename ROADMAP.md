@@ -4,7 +4,7 @@ Toad is a developer-friendly REST client driven by TOML collection files. It is 
 
 
 ## v0.2.0 — Environment
-- [ ] Output mode default via environment variable 
+- [✅] Output mode default via environment variable [documentation](doc/output_format.md) / [issue](https://github.com/benabernathy/toad-cli/issues/1)
 - [ ] `body_file` — reference an external JSON file for large payloads
 
 ---

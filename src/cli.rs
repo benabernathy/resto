@@ -11,8 +11,8 @@ pub struct Cli {
     pub requests: Option<String>,
 
     // Optional output format/verbosity
-    #[arg(short, long, value_enum, default_value_t = OutputFormat::Normal)]
-    pub output: OutputFormat,
+    #[arg(short, long, value_enum)]
+    pub output: Option<OutputFormat>,
 
     // Only list requests in file
     #[arg(short, long)]
@@ -23,7 +23,7 @@ pub struct Cli {
     pub profile: Option<String>,
 }
 
-#[derive(ValueEnum, Clone, Default)]
+#[derive(ValueEnum, Clone, Default, PartialEq)]
 pub enum OutputFormat {
     #[default]
     Normal,

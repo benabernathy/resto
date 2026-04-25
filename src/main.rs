@@ -22,6 +22,33 @@ use crate::output::{
 fn main() -> Result<()> {
     let cli = Cli::parse();
 
+    let env_output_mode = match std::env::var("TOAD_OUTPUT").as_deref() {
+        Ok("quiet") => OutputFormat::Quiet,
+        Ok("silent") => OutputFormat::Silent,
+        Ok("verbose") => OutputFormat::Verbose,
+        Ok("response-Only") => OutputFormat::ResponseOnly,
+        Ok("request-only") => OutputFormat::RequestOnly,
+        Ok(unknown) => {
+            eprintln!("unknown TOAD_OUTPUT value: '{}', using normal", unknown);
+            OutputFormat::Normal
+        }
+        Err(_) => OutputFormat::Normal,
+    };
+
+    let output_format = match cli.output {
+        Some(fmt) => fmt,
+        None => env_output_mode,
+    };
+
+    let output: Box<dyn OutputMode> = match output_format {
+        OutputFormat::Silent => Box::new(SilentOutput {}),
+        OutputFormat::Quiet => Box::new(QuietOutput {}),
+        OutputFormat::Verbose => Box::new(VerboseOutput {}),
+        OutputFormat::ResponseOnly => Box::new(ResponseOnlyOutput {}),
+        OutputFormat::Normal => Box::new(NormalOutput {}),
+        OutputFormat::RequestOnly => Box::new(RequestOnlyOutput {}),
+    };
+
     let content = fs::read_to_string(&cli.file)
         .with_context(|| format!("could not read {}", cli.file.display()))?;
 
@@ -46,15 +73,6 @@ fn main() -> Result<()> {
             std::process::exit(1);
         }
     }
-
-    let output: Box<dyn OutputMode> = match cli.output {
-        OutputFormat::Silent => Box::new(SilentOutput {}),
-        OutputFormat::Quiet => Box::new(QuietOutput {}),
-        OutputFormat::Verbose => Box::new(VerboseOutput {}),
-        OutputFormat::ResponseOnly => Box::new(ResponseOnlyOutput {}),
-        OutputFormat::Normal => Box::new(NormalOutput {}),
-        OutputFormat::RequestOnly => Box::new(RequestOnlyOutput {}),
-    };
 
     for (name, req) in &requests {
         let result = execute_request(name, req, &rf.vars, rf.config, output.as_ref());
