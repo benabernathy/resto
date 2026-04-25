@@ -1,11 +1,15 @@
 [package]
-name = "toad"
+name = "toad-cli"
 version = "0.1.0"
 license = "MIT"
 edition = "2024"
-description = "A developer-friendly REST client"
-repository = "https://github.com/benabernathy/toad"
+description = "A developer-friendly REST client called toad"
+repository = "https://github.com/benabernathy/toad-cli"
 readme = "README.md"
+
+[[bin]]
+name = "toad"
+path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.102"
