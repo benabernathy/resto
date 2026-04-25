@@ -2,7 +2,7 @@ use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "resto", about = "A developer-friendly REST client")]
+#[command(name = "toad", about = "A developer-friendly REST client")]
 pub struct Cli {
     /// Path to the collection file
     pub file: PathBuf,

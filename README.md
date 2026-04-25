@@ -1,21 +1,21 @@
-# resto
+# toad
 
-Resto is a simple cli app for testing REST services. It's kind of like curl, but focused on REST operations. It's still
+Toad is a simple cli app for testing REST services. It's kind of like curl, but focused on REST operations. It's still
 in its infancy, but the goal is to be simple, useful, and have sane default behavior. I created this tool as an answer
 to the frustations I experienced with Postman and Jetclient. As I was thinking about alternatives I asked myself,
-"Why can't this just be a CLI?" and then presto there was resto. 
+"Why can't this just be a CLI?" and then there was toad. 
 
-![resto output](doc/video.gif)
+![toad output](doc/video.gif)
 
 
 ## Installation
-- Mac OS (Homebrew) `brew tap benabernathy/resto && brew install resto`
-- Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/resto/releases) page.
+- Mac OS (Homebrew) `brew tap benabernathy/toad && brew install toad`
+- Releases for most popular OSes and architectures can be downloaded from the [Releases](https://github.com/benabernathy/toad/releases) page.
 - You may install it using cargo after cloning this repo, run `cargo install --path .` 
 
 ## Quick Start
 
-It's pretty simple, you create a toml file that defines your operations and then you give the file to resto.
+It's pretty simple, you create a toml file that defines your operations and then you give the file to toad.
 
 You can do some cool stuff like this:
 ```toml
@@ -53,15 +53,15 @@ url = "{{base_url}}/users/999999"
 expect_status = [404]
 ```
 
-- Then you can run resto and have it run all the operations: `resto test.toml`.
+- Then you can run toad and have it run all the operations: `toad test.toml`.
 
-- You can also tell resto to run a single operation: `resto test.toml get-posts`. 
+- You can also tell toad to run a single operation: `toad test.toml get-posts`. 
 
-- You can also tell resto to quiet its outputs: `resto test.toml -q`. It'll only output the operation name, code, and elapsed time.
+- You can also tell toad to quiet its outputs: `toad test.toml -q`. It'll only output the operation name, code, and elapsed time.
 
-- You can also tell resto to be really quiet (aka silent): `resto test.toml -Q`. Resto will only use the return code and produce no stdout. Just a 0 if all's swell or 1 otherwise.
+- You can also tell toad to be really quiet (aka silent): `toad test.toml -Q`. Toad will only use the return code and produce no stdout. Just a 0 if all's swell or 1 otherwise.
 
-- Finally, you can tell resto to shout it's output: `resto test.toml -v`. Resto will show you the resolved URL, body, and response. 
+- Finally, you can tell toad to shout it's output: `toad test.toml -v`. Toad will show you the resolved URL, body, and response. 
 
 ### Usage 
 
@@ -75,4 +75,4 @@ method = "GET"
 url = "{{base_url}}/posts"
 ```
 
-2. Run resto with the -o for "output only" and redirect the output to a file: `resto test.toml get-posts -o > get-posts.json`
+2. Run toad with the -o for "output only" and redirect the output to a file: `toad test.toml get-posts -o > get-posts.json`

@@ -55,20 +55,20 @@ jobs:
         if: matrix.archive == 'tar.gz'
         run: |
           cd target/${{ matrix.target }}/release
-          tar -czf resto-${{ github.ref_name }}-${{ matrix.target }}.tar.gz resto
-          mv resto-${{ github.ref_name }}-${{ matrix.target }}.tar.gz ../../../
+          tar -czf toad-${{ github.ref_name }}-${{ matrix.target }}.tar.gz toad
+          mv toad-${{ github.ref_name }}-${{ matrix.target }}.tar.gz ../../../
 
       - name: Package (Windows)
         if: matrix.archive == 'zip'
         run: |
           cd target/${{ matrix.target }}/release
-          Compress-Archive -Path resto.exe -DestinationPath ../../../resto-${{ github.ref_name }}-${{ matrix.target }}.zip
+          Compress-Archive -Path toad.exe -DestinationPath ../../../toad-${{ github.ref_name }}-${{ matrix.target }}.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: resto-${{ matrix.target }}
-          path: resto-${{ github.ref_name }}-${{ matrix.target }}.${{ matrix.archive }}
+          name: toad-${{ matrix.target }}
+          path: toad-${{ github.ref_name }}-${{ matrix.target }}.${{ matrix.archive }}
 
   release:
     name: Create Release
@@ -82,9 +82,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            resto-x86_64-unknown-linux-gnu/resto-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
-            resto-aarch64-unknown-linux-gnu/resto-${{ github.ref_name }}-aarch64-unknown-linux-gnu.tar.gz
-            resto-x86_64-apple-darwin/resto-${{ github.ref_name }}-x86_64-apple-darwin.tar.gz
-            resto-aarch64-apple-darwin/resto-${{ github.ref_name }}-aarch64-apple-darwin.tar.gz
-            resto-x86_64-pc-windows-msvc/resto-${{ github.ref_name }}-x86_64-pc-windows-msvc.zip
+            toad-x86_64-unknown-linux-gnu/toad-${{ github.ref_name }}-x86_64-unknown-linux-gnu.tar.gz
+            toad-aarch64-unknown-linux-gnu/toad-${{ github.ref_name }}-aarch64-unknown-linux-gnu.tar.gz
+            toad-x86_64-apple-darwin/toad-${{ github.ref_name }}-x86_64-apple-darwin.tar.gz
+            toad-aarch64-apple-darwin/toad-${{ github.ref_name }}-aarch64-apple-darwin.tar.gz
+            toad-x86_64-pc-windows-msvc/toad-${{ github.ref_name }}-x86_64-pc-windows-msvc.zip
           generate_release_notes: true
