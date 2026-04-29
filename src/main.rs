@@ -14,9 +14,12 @@ mod executor;
 use executor::execute_request;
 
 mod output;
-use crate::output::{
-    NormalOutput, OutputMode, QuietOutput, RequestOnlyOutput, ResponseOnlyOutput, SilentOutput,
-    VerboseOutput,
+use crate::{
+    collection::load_ext_body,
+    output::{
+        NormalOutput, OutputMode, QuietOutput, RequestOnlyOutput, ResponseOnlyOutput, SilentOutput,
+        VerboseOutput,
+    },
 };
 
 fn main() -> Result<()> {
@@ -54,6 +57,8 @@ fn main() -> Result<()> {
 
     let mut rf: RequestFile = toml::from_str(&content)
         .with_context(|| format!("could not parse {}", cli.file.display()))?;
+
+    load_ext_body(&mut rf, &cli.file)?;
 
     let requests = load_requests(&rf, cli.requests.as_deref())?;
 
