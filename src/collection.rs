@@ -1,7 +1,11 @@
-use anyhow::{Result, anyhow};
+use anyhow::{Context, Result, anyhow};
 use indexmap::IndexMap;
 use serde::Deserialize;
-use std::collections::HashMap;
+use std::{
+    collections::HashMap,
+    fs,
+    path::{Path, PathBuf},
+};
 
 #[derive(Debug, Deserialize)]
 pub struct RequestFile {
@@ -39,6 +43,8 @@ pub struct RequestDef {
 
     pub body: Option<String>,
 
+    pub body_file: Option<String>,
+
     pub expect_status: Option<Vec<u16>>,
 
     #[serde(default = "default_timeout")]
@@ -50,6 +56,39 @@ fn default_method() -> String {
 }
 fn default_timeout() -> u64 {
     30
+}
+
+pub fn load_ext_body(rf: &mut RequestFile, request_file_path: &Path) -> Result<()> {
+    for (request_name, request) in &mut rf.requests {
+        match (&request.body, &request.body_file) {
+            (Some(_), Some(_)) => {
+                return Err(anyhow!(
+                    "request '{}' specifies both 'body' and 'body_file' - only one may be specified",
+                    request_name
+                ));
+            }
+            (None, Some(path)) => {
+                let body_path = if Path::new(path).is_absolute() {
+                    PathBuf::from(path)
+                } else {
+                    request_file_path
+                        .parent()
+                        .unwrap_or(Path::new("."))
+                        .join(path)
+                };
+
+                let content = fs::read_to_string(body_path).with_context(|| {
+                    format!(
+                        "could not read body_file '{}' in request '{}'",
+                        path, request_name
+                    )
+                })?;
+                request.body = Some(content);
+            }
+            _ => {}
+        }
+    }
+    Ok(())
 }
 
 pub fn load_requests(rf: &RequestFile, name: Option<&str>) -> Result<Vec<(String, RequestDef)>> {

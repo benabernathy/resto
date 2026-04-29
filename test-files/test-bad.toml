@@ -1,0 +1,39 @@
+[config]
+ignore_ssl = false # Defaults to false
+
+[vars]
+base_url = "https://jsonplaceholder.typicode.com"
+
+[profiles.local]
+base_url = "https://localhost:8080"
+
+[create-post]
+method = "POST"
+url = "{{base_url}}/posts"
+body = """
+{
+  "title": "Hello",
+  "userId": 1
+}
+"""
+body_file = "./creat-post-body.json"
+
+[get-user]
+description = "Fetch a user"
+method = "GET"
+url = "{{base_url}}/users/1"
+expect_status = [200]
+
+[not-found]
+description = "Born to fail"
+method = "GET"
+url = "{{base_url}}/users/999999"
+expect_status = [404]
+
+[get-posts]
+method = "GET"
+url = "{{base_url}}/posts"
+
+[get-posts.query]
+userId = "1"
+_limit = "3"
